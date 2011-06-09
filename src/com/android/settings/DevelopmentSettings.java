@@ -36,12 +36,14 @@ public class DevelopmentSettings extends PreferenceActivity
         implements DialogInterface.OnClickListener, DialogInterface.OnDismissListener {
 
     private static final String ENABLE_ADB = "enable_adb";
+    private static final String ADB_IS_USB = "adb_is_usb";
     private static final String ADB_NOTIFY = "adb_notify";
     private static final String KEEP_SCREEN_ON = "keep_screen_on";
     private static final String ALLOW_MOCK_LOCATION = "allow_mock_location";
     private static final String KILL_APP_LONGPRESS_BACK = "kill_app_longpress_back";
 
     private CheckBoxPreference mEnableAdb;
+    private CheckBoxPreference mAdbIsUsb;
     private CheckBoxPreference mAdbNotify;
     private CheckBoxPreference mKeepScreenOn;
     private CheckBoxPreference mAllowMockLocation;
@@ -59,6 +61,7 @@ public class DevelopmentSettings extends PreferenceActivity
         addPreferencesFromResource(R.xml.development_prefs);
 
         mEnableAdb = (CheckBoxPreference) findPreference(ENABLE_ADB);
+        mAdbIsUsb = (CheckBoxPreference) findPreference(ADB_IS_USB);
         mAdbNotify = (CheckBoxPreference) findPreference(ADB_NOTIFY);
         mKeepScreenOn = (CheckBoxPreference) findPreference(KEEP_SCREEN_ON);
         mAllowMockLocation = (CheckBoxPreference) findPreference(ALLOW_MOCK_LOCATION);
@@ -71,10 +74,12 @@ public class DevelopmentSettings extends PreferenceActivity
 
         mEnableAdb.setChecked(Settings.Secure.getInt(getContentResolver(),
                 Settings.Secure.ADB_ENABLED, 0) != 0);
-        
+        mAdbIsUsb.setChecked(Settings.Secure.getInt(getContentResolver(),
+                Settings.Secure.ADB_PORT, 0) == -1);
+
         mAdbNotify.setChecked(Settings.Secure.getInt(getContentResolver(),
                 Settings.Secure.ADB_NOTIFY, 1) != 0);
-                
+
         mKeepScreenOn.setChecked(Settings.System.getInt(getContentResolver(),
                 Settings.System.STAY_ON_WHILE_PLUGGED_IN, 0) != 0);
         mAllowMockLocation.setChecked(Settings.Secure.getInt(getContentResolver(),
@@ -105,6 +110,9 @@ public class DevelopmentSettings extends PreferenceActivity
             } else {
                 Settings.Secure.putInt(getContentResolver(), Settings.Secure.ADB_ENABLED, 0);
             }
+        } else if (preference == mAdbIsUsb) {
+            Settings.Secure.putInt(getContentResolver(), Settings.Secure.ADB_PORT,
+                    mAdbIsUsb.isChecked() ? -1 : 5555);
         } else if (preference == mAdbNotify) {
             Settings.Secure.putInt(getContentResolver(), Settings.Secure.ADB_NOTIFY,
                     mAdbNotify.isChecked() ? 1 : 0);
