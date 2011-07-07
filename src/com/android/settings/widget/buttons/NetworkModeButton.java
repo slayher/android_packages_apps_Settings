@@ -50,11 +50,11 @@ public class NetworkModeButton extends WidgetButton {
             return SettingsAppWidgetProvider.STATE_INTERMEDIATE;
 
         switch (networkMode) {
-            case Phone.NT_MODE_WCDMA_PREF:
-            case Phone.NT_MODE_WCDMA_ONLY:
-            case Phone.NT_MODE_GSM_UMTS:
+            case Phone.NT_MODE_CDMA_AND_LTE_EVDO:
+            case Phone.NT_MODE_CDMA:
                 return SettingsAppWidgetProvider.STATE_ENABLED;
-            case Phone.NT_MODE_GSM_ONLY:
+            case Phone.NT_MODE_GLOBAL:
+            case Phone.NT_MODE_CDMA_NO_EVDO:
                 return SettingsAppWidgetProvider.STATE_DISABLED;
         }
         return SettingsAppWidgetProvider.STATE_INTERMEDIATE;
@@ -110,33 +110,15 @@ public class NetworkModeButton extends WidgetButton {
         SettingsAppWidgetProvider.logD("NetworkMode: toggleState");
         Intent intent = new Intent(MODIFY_NETWORK_MODE);
         switch (networkMode) {
-            case Phone.NT_MODE_WCDMA_PREF:
-            case Phone.NT_MODE_GSM_UMTS:
-                intent.putExtra(NETWORK_MODE, Phone.NT_MODE_GSM_ONLY);
+            case Phone.NT_MODE_CDMA_AND_LTE_EVDO:
+                intent.putExtra(NETWORK_MODE, Phone.NT_MODE_CDMA);
                 currentInternalState = SettingsAppWidgetProvider.STATE_TURNING_OFF;
-                intendedNetworkMode = Phone.NT_MODE_GSM_ONLY;
+                intendedNetworkMode = Phone.NT_MODE_CDMA;
                 break;
-            case Phone.NT_MODE_WCDMA_ONLY:
-                if (currentMode == MODE_3GONLY || switchModes) {
-                    intent.putExtra(NETWORK_MODE, Phone.NT_MODE_GSM_ONLY);
-                    currentInternalState = SettingsAppWidgetProvider.STATE_TURNING_OFF;
-                    intendedNetworkMode = Phone.NT_MODE_GSM_ONLY;
-                } else {
-                    intent.putExtra(NETWORK_MODE, Phone.NT_MODE_WCDMA_PREF);
-                    currentInternalState = SettingsAppWidgetProvider.STATE_TURNING_ON;
-                    intendedNetworkMode = Phone.NT_MODE_WCDMA_PREF;
-                }
-                break;
-            case Phone.NT_MODE_GSM_ONLY:
-                if (currentMode == MODE_3GONLY || currentMode == MODE_BOTH) {
-                    intent.putExtra(NETWORK_MODE, Phone.NT_MODE_WCDMA_ONLY);
-                    currentInternalState = SettingsAppWidgetProvider.STATE_TURNING_ON;
-                    intendedNetworkMode = Phone.NT_MODE_WCDMA_ONLY;
-                } else {
-                    intent.putExtra(NETWORK_MODE, Phone.NT_MODE_WCDMA_PREF);
-                    currentInternalState = SettingsAppWidgetProvider.STATE_TURNING_ON;
-                    intendedNetworkMode = Phone.NT_MODE_WCDMA_PREF;
-                }
+            case Phone.NT_MODE_CDMA:
+                intent.putExtra(NETWORK_MODE, Phone.NT_MODE_CDMA_AND_LTE_EVDO);
+                currentInternalState = SettingsAppWidgetProvider.STATE_TURNING_ON;
+                intendedNetworkMode = Phone.NT_MODE_CDMA_AND_LTE_EVDO;
                 break;
         }
 
@@ -157,11 +139,11 @@ public class NetworkModeButton extends WidgetButton {
                 currentIcon = R.drawable.ic_appwidget_settings_2g3g_off;
                 break;
             case SettingsAppWidgetProvider.STATE_ENABLED:
-                if (networkMode == Phone.NT_MODE_WCDMA_ONLY) {
+                if (networkMode == Phone.NT_MODE_CDMA) {
                     currentIcon = R.drawable.ic_appwidget_settings_3g_on;
 
                 } else {
-                    currentIcon = R.drawable.ic_appwidget_settings_2g3g_on;
+                    currentIcon = R.drawable.ic_appwidget_settings_4g3g_on;
                 }
                 break;
             case SettingsAppWidgetProvider.STATE_INTERMEDIATE:
@@ -171,10 +153,10 @@ public class NetworkModeButton extends WidgetButton {
                 // user's intent. This is much easier to see in
                 // sunlight.
                 if (currentInternalState == SettingsAppWidgetProvider.STATE_TURNING_ON) {
-                    if (intendedNetworkMode == Phone.NT_MODE_WCDMA_ONLY) {
+                    if (intendedNetworkMode == Phone.NT_MODE_CDMA) {
                         currentIcon = R.drawable.ic_appwidget_settings_3g_on;
                     } else {
-                        currentIcon = R.drawable.ic_appwidget_settings_2g3g_on;
+                        currentIcon = R.drawable.ic_appwidget_settings_4g3g_on;
                     }
                 } else {
                     currentIcon = R.drawable.ic_appwidget_settings_2g3g_off;

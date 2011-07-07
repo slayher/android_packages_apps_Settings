@@ -2930,7 +2930,7 @@ found in the list of installed applications.</string>
     <string name="toggleGPS">GPS</string>
     <string name="toggleData">Mobile Data</string>
     <string name="toggleSync">Data Sync</string>
-    <string name="toggle2g3g">2G/3G</string>
+    <string name="toggle2g3g">3G/4G</string>
     <string name="toggleSound">Ring Mode</string>
     <string name="toggleBrightness">Brightness</string>
     <string name="toggleAutoRotate">Orientation</string>
@@ -2946,7 +2946,7 @@ found in the list of installed applications.</string>
     <string name="toggleGPSDescription">Enable/disable GPS</string>
     <string name="toggleDataDescription">Enable/disable mobile data</string>
     <string name="toggleSyncDescription">Enable/disable data sync</string>
-    <string name="toggle2g3gDescription">Switch between 2G and 3G</string>
+    <string name="toggle2g3gDescription">Switch between 3G and 4G</string>
     <string name="toggleSoundDescription">Switch between ring and vibrate only</string>
     <string name="toggleBrightnessDescription">Switch between brightness levels</string>
     <string name="toggleAutoRotateDescription">Enable/disable orientation sensor</string>
