@@ -136,12 +136,19 @@ public class Status extends PreferenceActivity {
                 String statusString;
                 if (status == BatteryManager.BATTERY_STATUS_CHARGING) {
                     statusString = getString(R.string.battery_info_status_charging);
-                    if (plugType > 0) {
-                        statusString = statusString + " " + getString(
-                                (plugType == BatteryManager.BATTERY_PLUGGED_AC)
-                                        ? R.string.battery_info_status_charging_ac
-                                        : R.string.battery_info_status_charging_usb);
+                        int chargeString = 0;
+                        switch (plugType) {
+	                    case BatteryManager.BATTERY_PLUGGED_AC:
+		                    chargeString = R.string.battery_info_status_charging_ac;
+		                break;
+	                    case BatteryManager.BATTERY_PLUGGED_USB:
+		                    chargeString = R.string.battery_info_status_charging_usb;
+		                break;
+	                    default:
+		                    chargeString = R.string.battery_info_status_charging_wireless;
+		                break;
                     }
+                    statusString = statusString + " " + getString(chargeString);
                 } else if (status == BatteryManager.BATTERY_STATUS_DISCHARGING) {
                     statusString = getString(R.string.battery_info_status_discharging);
                 } else if (status == BatteryManager.BATTERY_STATUS_NOT_CHARGING) {
